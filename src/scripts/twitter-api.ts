@@ -72,11 +72,7 @@ namespace TwitterAPI {
     if (user.blocking) {
       return true
     }
-    const shouldNotBlock = _.some([
-      user.following
-      // user.followed_by,
-      // user.follow_request_sent
-    ])
+    const shouldNotBlock = user.following
     if (shouldNotBlock) {
       throw new Error('!!!!! FATAL!!!!!: attempted to block user that should NOT block!!')
     }
