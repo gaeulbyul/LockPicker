@@ -1,4 +1,4 @@
-function toggleNightMode (mode: boolean) {
+function toggleNightMode(mode: boolean) {
   document.documentElement!.classList.toggle('lockpicker-nightmode', mode)
 }
 
@@ -17,7 +17,7 @@ const nightModeObserver = new MutationObserver(mutations => {
   }
 })
 
-function updateDarkModeClass () {
+function updateDarkModeClass() {
   const htmlElem = document.documentElement!
   htmlElem.classList.add('lockpicker-mobile')
   if (isDarkMode) {
@@ -38,18 +38,20 @@ if (document.getElementById('react-root')) {
 } else {
   nightModeObserver.observe(document.head!, {
     childList: true,
-    subtree: true
+    subtree: true,
   })
 }
 
-async function runLockPicker () {
+async function runLockPicker() {
   const lockpicker = new LockPicker()
   const users = await lockpicker.start()
   const count = users.length
-  void sleep(200).then(() => window.alert(`완료! 프로텍트 팔로워를 총 ${count}명 찾았습니다.`))
+  void sleep(200).then(() =>
+    window.alert(`완료! 프로텍트 팔로워를 총 ${count}명 찾았습니다.`)
+  )
 }
 
-function elemExists (qs: string): boolean {
+function elemExists(qs: string): boolean {
   return document.querySelector(qs) !== null
 }
 

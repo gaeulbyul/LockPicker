@@ -22,15 +22,17 @@ class LockPickerUI extends EventEmitter {
   private rootElem = document.createElement('div')
   private userItems = new Map<string, HTMLElement>()
   private progressBar!: HTMLProgressElement
-  constructor () {
+  constructor() {
     super()
     this.rootElem.className = 'lockpicker-bg'
     this.rootElem.innerHTML = LOCK_PICKER_UI_HTML
     this.attachEvents()
-    this.progressBar = this.rootElem.querySelector<HTMLProgressElement>('.lockpicker-progress')!
+    this.progressBar = this.rootElem.querySelector<HTMLProgressElement>(
+      '.lockpicker-progress'
+    )!
     document.body.appendChild(this.rootElem)
   }
-  private attachEvents () {
+  private attachEvents() {
     this.rootElem.addEventListener('click', event => {
       if (!event.target) {
         return
@@ -46,9 +48,11 @@ class LockPickerUI extends EventEmitter {
         if (!window.confirm(confirmMessage)) {
           return
         }
-        const ids = Array
-          .from(this.rootElem.querySelectorAll<HTMLElement>('li.lockpicker-user[data-user-id]'))
-          .map(elem => elem.getAttribute('data-user-id')!)
+        const ids = Array.from(
+          this.rootElem.querySelectorAll<HTMLElement>(
+            'li.lockpicker-user[data-user-id]'
+          )
+        ).map(elem => elem.getAttribute('data-user-id')!)
         this.emit<BlockAllParameter>('ui:block-all', { ids })
         this.setControlsAvaility('disable')
       } else if (target.matches('.lockpicker-bnub-all')) {
@@ -57,35 +61,39 @@ class LockPickerUI extends EventEmitter {
         if (!window.confirm(confirmMessage)) {
           return
         }
-        const ids = Array
-          .from(this.rootElem.querySelectorAll<HTMLElement>('li.lockpicker-user[data-user-id]'))
-          .map(elem => elem.getAttribute('data-user-id')!)
+        const ids = Array.from(
+          this.rootElem.querySelectorAll<HTMLElement>(
+            'li.lockpicker-user[data-user-id]'
+          )
+        ).map(elem => elem.getAttribute('data-user-id')!)
         this.emit<BlockAllParameter>('ui:bnub-all', { ids })
         this.setControlsAvaility('disable')
       }
     })
   }
-  public close () {
+  public close() {
     this.rootElem.remove()
   }
-  public setCounter (val: number) {
+  public setCounter(val: number) {
     this.progressBar.value = val
   }
-  public blocked (user: TwitterUser, result: boolean) {
+  public blocked(user: TwitterUser, result: boolean) {
     const className = result ? 'blocked' : 'blockfailed'
     const item = this.userItems.get(user.id_str)!
     item.classList.add(className)
   }
-  public blockAndUnblocked (user: TwitterUser, result: boolean) {
+  public blockAndUnblocked(user: TwitterUser, result: boolean) {
     const className = result ? 'bnubed' : 'blockfailed'
     const item = this.userItems.get(user.id_str)!
     item.classList.add(className)
   }
-  public updateMyInfo (me: TwitterUser) {
-    this.rootElem.querySelector('.lockpicker-total-followers')!.textContent = me.followers_count.toString()
+  public updateMyInfo(me: TwitterUser) {
+    this.rootElem.querySelector(
+      '.lockpicker-total-followers'
+    )!.textContent = me.followers_count.toString()
     this.progressBar.max = me.followers_count
   }
-  public updateUsers (users: TwitterUser[]) {
+  public updateUsers(users: TwitterUser[]) {
     const userList = this.rootElem.querySelector('.lockpicker-found-user-list')!
     const addUserItem = (user: TwitterUser): HTMLElement => {
       const templ = `
@@ -129,13 +137,17 @@ class LockPickerUI extends EventEmitter {
       userList.appendChild(item)
     }
   }
-  public setControlsAvaility (enabled: 'enable' | 'disable') {
+  public setControlsAvaility(enabled: 'enable' | 'disable') {
     const disabled = enabled === 'disable'
-    this.rootElem.querySelectorAll<HTMLButtonElement>('.lockpicker-controls button.action-btn').forEach(btn => {
-      btn.disabled = disabled
-    })
+    this.rootElem
+      .querySelectorAll<HTMLButtonElement>(
+        '.lockpicker-controls button.action-btn'
+      )
+      .forEach(btn => {
+        btn.disabled = disabled
+      })
   }
-  public complete (users: TwitterUser[]) {
+  public complete(users: TwitterUser[]) {
     this.progressBar.value = this.progressBar.max
     this.setControlsAvaility('enable')
     if (users.length <= 0) {

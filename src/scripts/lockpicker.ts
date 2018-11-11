@@ -2,13 +2,15 @@ class LockPicker {
   private ui = new LockPickerUI()
   private isRunning = false
   private foundUsers: Map<string, TwitterUser> = new Map()
-  constructor () {
+  constructor() {
     this.handleEvents()
   }
-  private handleEvents () {
+  private handleEvents() {
     this.ui.on('ui:close', () => {
       if (this.isRunning) {
-        const confirmed = window.confirm('LockPicker가 아직 실행중입니다. 그래도 중단하고 닫으시겠습니까?')
+        const confirmed = window.confirm(
+          'LockPicker가 아직 실행중입니다. 그래도 중단하고 닫으시겠습니까?'
+        )
         if (confirmed) {
           this.ui.close()
         }
@@ -29,31 +31,37 @@ class LockPicker {
       void this.blockAndUnblockAll(users)
     })
   }
-  public async blockAll (users: TwitterUser[]) {
-    return Promise.all(users.map(async user => {
-      const blockResult = await TwitterAPI.blockUser(user)
-      this.ui.blocked(user, blockResult)
-      return blockResult
-    }))
+  public async blockAll(users: TwitterUser[]) {
+    return Promise.all(
+      users.map(async user => {
+        const blockResult = await TwitterAPI.blockUser(user)
+        this.ui.blocked(user, blockResult)
+        return blockResult
+      })
+    )
     // return TwitterAPI.blockUser
   }
-  public async blockAndUnblockAll (users: TwitterUser[]) {
-    return Promise.all(users.map(async user => {
-      const blockResult = await TwitterAPI.blockUser(user)
-      const unblockResult = await TwitterAPI.unblockUser(user)
-      const bnubResult = blockResult && unblockResult
-      this.ui.blockAndUnblocked(user, bnubResult)
-      return bnubResult
-    }))
+  public async blockAndUnblockAll(users: TwitterUser[]) {
+    return Promise.all(
+      users.map(async user => {
+        const blockResult = await TwitterAPI.blockUser(user)
+        const unblockResult = await TwitterAPI.unblockUser(user)
+        const bnubResult = blockResult && unblockResult
+        this.ui.blockAndUnblocked(user, bnubResult)
+        return bnubResult
+      })
+    )
   }
-  public async start (): Promise<TwitterUser[]> {
+  public async start(): Promise<TwitterUser[]> {
     const me = await TwitterAPI.getMyself()
     this.ui.updateMyInfo(me)
     this.isRunning = true
     try {
       let counter = 0
       for await (const follower of TwitterAPI.getAllFollowers(me)) {
-        console.dir(`user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`)
+        console.dir(
+          `user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`
+        )
         this.ui.setCounter(++counter)
         if (follower.following) {
           continue
@@ -70,7 +78,9 @@ class LockPicker {
         const flimit = limits.followers['/followers/list']
         const resetTime = new Date(flimit.reset * 1000)
         const timestr = formatTime(resetTime)
-        window.alert(`리밋에러 발생! 20~3분 뒤에 다시 시도해주세요. (예상 리셋시간: ${timestr})`)
+        window.alert(
+          `리밋에러 발생! 20~3분 뒤에 다시 시도해주세요. (예상 리셋시간: ${timestr})`
+        )
       } else {
         window.alert(`오류 발생! (메시지:${err.toString()})`)
         throw err
