@@ -135,8 +135,11 @@ class LockPickerUI extends EventEmitter {
       btn.disabled = disabled
     })
   }
-  public complete () {
+  public complete (users: TwitterUser[]) {
     this.progressBar.value = this.progressBar.max
     this.setControlsAvaility('enable')
+    if (users.length <= 0) {
+      this.close()
+    }
   }
 }

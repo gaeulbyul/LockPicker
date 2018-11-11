@@ -46,13 +46,14 @@ class LockPicker {
       return bnubResult
     }))
   }
-  public async start () {
+  public async start (): Promise<TwitterUser[]> {
     const me = await TwitterAPI.getMyself()
     this.ui.updateMyInfo(me)
     this.isRunning = true
     try {
       let counter = 0
       for await (const follower of TwitterAPI.getAllFollowers(me)) {
+        console.dir(`user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`)
         this.ui.setCounter(++counter)
         if (follower.following) {
           continue
@@ -62,7 +63,7 @@ class LockPicker {
         }
         this.ui.updateUsers(Array.from(this.foundUsers.values()))
       }
-      this.ui.complete()
+      this.ui.complete(Array.from(this.foundUsers.values()))
     } catch (err) {
       if (err instanceof TwitterAPI.RateLimitError) {
         const limits = await TwitterAPI.getRateLimitStatus()
@@ -77,5 +78,6 @@ class LockPicker {
     } finally {
       this.isRunning = false
     }
+    return Array.from(this.foundUsers.values())
   }
 }

@@ -2,6 +2,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -9,43 +10,42 @@
 
 .lockpicker-bg {
   position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: 9999;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  z-index: 9999;
+  left: 0;
+  display: flex;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, .6);
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
 }
+
 .lockpicker-dialog hr {
   margin: 3px 0;
 }
-.lockpicker-container {
-  position: fixed;
-  /* PC트위터 기준 상단바 프로필 메뉴는 z-index: 900 */
-  /* 따라서 그보다 낮은 값으로 설정하여 메뉴를 가리지 않도록 함 */
-  z-index: 800;
-}
+
 .lockpicker-dialog {
-  padding: 15px;
-  margin: 10px 0;
   display: flex;
   flex-direction: column;
   width: 450px;
+  margin: 10px 0;
+  padding: 15px;
+  animation: lockpicker-fade-in 0.5s;
   box-shadow: 0 2px 20px #0006;
-  animation: lockpicker-fade-in .5s;
   will-change: opacity;
 }
+
 progress.lockpicker-progress {
   width: 100%;
 }
+
 .lockpicker-controls {
   margin: 5px 0;
   text-align: right;
 }
+
 .lockpicker-controls .btn {
   margin: 0 3px;
   border-radius: 5px;
@@ -55,92 +55,110 @@ progress.lockpicker-progress {
   color: inherit;
 }
 
+.lockpicker-controls .caution-btn {
+  color: white;
+}
+
 .lockpicker-controls .btn:disabled {
   cursor: not-allowed;
 }
+
 .lockpicker-user {
   margin-left: 1em;
 }
 
-.lockpicker-user.blocked:before {
-  content: '\2714'
+.lockpicker-user.blocked::before {
+  content: '\2714';
 }
-.lockpicker-user.bnubed:before {
-  content: '\2714\2714'
+
+.lockpicker-user.bnubed::before {
+  content: '\2714\2714';
 }
-.lockpicker-user.blockfailed:before {
-  content: '\274C'
+
+.lockpicker-user.blockfailed::before {
+  content: '\274C';
 }
 
 /* ---------- 모바일 ---------- */
 .lockpicker-mobile .lockpicker-bg {
-  background-color: rgba(0, 0, 0, .8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
+
 .lockpicker-mobile .lockpicker-dialog {
-  border-radius: 10px;
-  min-width: 250px;
-  width: 90vw;
-  max-height: 95vh;
   font-size: 16px;
+  width: 90vw;
+  min-width: 250px;
+  max-height: 95vh;
+  border-radius: 10px;
 }
+
 .lockpicker-mobile hr.lockpicker-hr {
   border-top: 1px solid;
   border-bottom: 0;
 }
+
 .lockpicker-mobile .lockpicker-controls {
   text-align: right;
 }
+
 .lockpicker-mobile .btn {
+  font-size: 1.25em;
   padding: 10px 25px;
   border: 1px solid;
-  font-size: 1.25em;
 }
 
 ul.lockpicker-found-user-list {
   line-height: 175%;
-  list-style-type: circle;
   list-style-position: inside;
+  list-style-type: circle;
 }
 
 .lockpicker-mobile .lockpicker-controls .btn ~ .btn {
   margin: 0 20px;
 }
+
 .lockpicker-mobile .lockpicker-controls .btn:disabled {
-  opacity: .4;
+  opacity: 0.4;
 }
 
 /* --- 야간모드 off --- */
 .lockpicker-mobile-light .lockpicker-dialog {
-  background-color: #fff;
   color: #000;
+  background-color: #fff;
 }
+
 .lockpicker-mobile-light .btn {
-  background-color: #ccc;
   border-color: #999;
+  background-color: #ccc;
 }
+
 .lockpicker-mobile-light .lockpicker-user {
-  color: crimson;
   text-decoration: underline;
+  color: crimson;
 }
+
 .lockpicker-mobile-light .btn.caution-btn {
-  background-color: crimson;
   color: white;
+  background-color: crimson;
 }
 
 /* --- 야간모드 on --- */
 .lockpicker-mobile-dark .lockpicker-dialog {
-  background-color: #141d26;
   color: #fff;
+  background-color: #141d26;
 }
+
 .lockpicker-mobile-dark .btn {
-  background-color: #1b2836;
   border-color: #666;
+  background-color: #1b2836;
 }
+
 .lockpicker-mobile-dark .lockpicker-user {
-  color: #f47189;
   text-decoration: underline;
+  color: #f47189;
 }
+
 .lockpicker-mobile-dark .btn.caution-btn {
-  background-color: crimson;
   color: white;
+  background-color: crimson;
 }
