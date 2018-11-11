@@ -10,9 +10,19 @@ function copyFrozenObject<T extends object> (obj: T): Readonly<T> {
   return Object.freeze(Object.assign({}, obj))
 }
 
+function formatTime (time: Date): string {
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const formatter = new Intl.DateTimeFormat('ko-KR', {
+    timeZone,
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+  return formatter.format(time)
+}
+
 abstract class EventEmitter {
   protected events: EventStore = new Proxy({}, {
-    get(target: EventStore, name: string) {
+    get (target: EventStore, name: string) {
       const originalValue = Reflect.get(target, name)
       if (Array.isArray(originalValue)) {
         return originalValue

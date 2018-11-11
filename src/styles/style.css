@@ -20,7 +20,7 @@
   overflow: hidden;
   background-color: rgba(0, 0, 0, .6);
 }
-hr.lockpicker-hr {
+.lockpicker-dialog hr {
   margin: 3px 0;
 }
 .lockpicker-container {
@@ -35,7 +35,7 @@ hr.lockpicker-hr {
   display: flex;
   flex-direction: column;
   width: 450px;
-  box-shadow: 0 2px 20px #6666;
+  box-shadow: 0 2px 20px #0006;
   animation: lockpicker-fade-in .5s;
   will-change: opacity;
 }
@@ -44,23 +44,34 @@ progress.lockpicker-progress {
 }
 .lockpicker-controls {
   margin: 5px 0;
-  float: right;
+  text-align: right;
 }
 .lockpicker-controls .btn {
+  margin: 0 3px;
   border-radius: 5px;
 }
+
 .lockpicker-controls .normal-btn {
   color: inherit;
 }
+
 .lockpicker-controls .btn:disabled {
   cursor: not-allowed;
 }
-.lockpicker-controls .btn ~ .btn {
-  margin: 0 5px;
+.lockpicker-user {
+  margin-left: 1em;
 }
-.lockpicker-blocked-user {
-  font-weight: bold;
+
+.lockpicker-user.blocked:before {
+  content: '\2714'
 }
+.lockpicker-user.bnubed:before {
+  content: '\2714\2714'
+}
+.lockpicker-user.blockfailed:before {
+  content: '\274C'
+}
+
 /* ---------- 모바일 ---------- */
 .lockpicker-mobile .lockpicker-bg {
   background-color: rgba(0, 0, 0, .8);

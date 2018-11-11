@@ -9,7 +9,7 @@ async function executeLockPicker () {
   if (!currentTab) {
     return
   }
-  browser.tabs.sendMessage<LPStartMessage>(currentTab.id as number, {
+  void browser.tabs.sendMessage<LPStartMessage>(currentTab.id as number, {
     action: 'LockPicker/Start'
   })
   window.close()
@@ -18,7 +18,7 @@ async function executeLockPicker () {
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.menu-item.run-lock-picker')!.addEventListener('click', event => {
     event.preventDefault()
-    executeLockPicker()
+    void executeLockPicker()
   })
   const manifest = browser.runtime.getManifest()
   const currentVersion = document.querySelector<HTMLElement>('.currentVersion')

@@ -68,3 +68,7 @@ type LPMessage =
 interface EventStore {
   [eventName: string]: Function[]
 }
+
+interface BlockAllParameter {
+  ids: string[]
+}

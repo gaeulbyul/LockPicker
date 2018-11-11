@@ -4,6 +4,8 @@
         "tslint-config-standard"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+      "linebreak-style": [true, "LF"]
+    },
     "rulesDirectory": []
 }

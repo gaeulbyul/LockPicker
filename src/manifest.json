@@ -15,7 +15,6 @@
     "https://api.twitter.com/*",
     "https://mobile.twitter.com/*",
     "storage",
-    "notifications",
     "activeTab"
   ],
 
@@ -33,6 +32,8 @@
         "vendor/lodash.js",
         "scripts/common.js",
         "scripts/twitter-api.js",
+        "scripts/lockpicker-ui.js",
+        "scripts/lockpicker.js",
         "scripts/content.js"
       ]
     }
