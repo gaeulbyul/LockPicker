@@ -1,5 +1,8 @@
 const LOCK_PICKER_UI_HTML = `
   <div class="lockpicker-dialog modal-content is-autoPosition">
+    <div class="lockpicker-title">
+      &#128274; Lock Picker
+    </div>
     <progress class="lockpicker-progress"></progress>
     <div class="lockpicker-progress-text">
       내 팔로워
