@@ -1,4 +1,4 @@
-﻿{
+{
   "description": "프로텍트 계정의 팔로우를 찾고, 차단이나 블언블하는 확장기능",
   "manifest_version": 2,
   "name": "Lock Picker",
@@ -8,6 +8,12 @@
   "icons": {
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
+  },
+  "minimum_chrome_version": "63",
+  "applications": {
+    "gecko": {
+      "strict_min_version": "60"
+    }
   },
 
   "permissions": [
