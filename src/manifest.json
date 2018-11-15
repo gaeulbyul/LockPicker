@@ -12,7 +12,7 @@
   "minimum_chrome_version": "63",
   "applications": {
     "gecko": {
-      "strict_min_version": "60"
+      "strict_min_version": "60.0"
     }
   },
 
