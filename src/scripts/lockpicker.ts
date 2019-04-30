@@ -63,7 +63,7 @@ class LockPicker {
       const protectedFollowers = new TwitterUserMap()
       let counter = 0
       for await (const follower of TwitterAPI.getAllFollowers(me)) {
-        console.dir(
+        console.debug(
           `user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`
         )
         this.ui.setCounter(++counter)

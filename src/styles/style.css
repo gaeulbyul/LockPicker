@@ -44,6 +44,7 @@
   border-bottom: 1px solid #6666;
   font-size: 16pt;
   font-weight: bold;
+  font-family: sans-serif;
 }
 
 progress.lockpicker-progress {
@@ -80,6 +81,7 @@ progress.lockpicker-progress {
 
 .lockpicker-user {
   margin-left: 1em;
+  font-family: sans-serif;
 }
 
 .lockpicker-user.blocked::before {
