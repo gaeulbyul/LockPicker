@@ -76,7 +76,7 @@ namespace TwitterAPI {
     if (user.blocking) {
       return true
     }
-    const shouldNotBlock = user.following
+    const shouldNotBlock = (user as any).following
     if (shouldNotBlock) {
       throw new Error(
         '!!!!! FATAL!!!!!: attempted to block user that should NOT block!!'
@@ -111,6 +111,9 @@ namespace TwitterAPI {
     user: TwitterUser,
     cursor: string = '-1'
   ): Promise<FollowsListResponse> {
+    console.warn(
+      'get followers/list API DEPRECATED: `following` property will gone'
+    )
     const response = await requestAPI('get', '/followers/list.json', {
       user_id: user.id_str,
       // screen_name: userName,
@@ -180,5 +183,26 @@ namespace TwitterAPI {
     )
     const resources = (await response.json()).resources as LimitStatus
     return resources
+  }
+
+  export async function getFriendships(
+    users: TwitterUser[]
+  ): Promise<FriendshipResponse> {
+    const userIds = users.map(user => user.id_str)
+    if (userIds.length === 0) {
+      return []
+    }
+    if (userIds.length > 100) {
+      throw new Error('too many users! (> 100)')
+    }
+    const joinedIds = Array.from(new Set(userIds)).join(',')
+    const response = await requestAPI('get', '/friendships/lookup.json', {
+      user_id: joinedIds,
+    })
+    if (response.ok) {
+      return response.json() as Promise<FriendshipResponse>
+    } else {
+      throw new Error('response is not ok')
+    }
   }
 }

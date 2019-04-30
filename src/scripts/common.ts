@@ -45,3 +45,30 @@ abstract class EventEmitter {
     return this
   }
 }
+
+interface TwitterUserEntities {
+  [userId: string]: TwitterUser
+}
+class TwitterUserMap extends Map<string, TwitterUser> {
+  public addUser(user: TwitterUser) {
+    this.set(user.id_str, user)
+  }
+  public toUserArray(): TwitterUser[] {
+    return Array.from(this.values())
+  }
+  public toUserObject(): TwitterUserEntities {
+    const usersObj: TwitterUserEntities = {}
+    for (const [userId, user] of this) {
+      usersObj[userId] = user
+    }
+    return usersObj
+  }
+  public static fromUsersArray(users: TwitterUser[]): TwitterUserMap {
+    return new TwitterUserMap(
+      users.map((user): [string, TwitterUser] => [user.id_str, user])
+    )
+  }
+  public filter(fn: (user: TwitterUser) => boolean): TwitterUserMap {
+    return TwitterUserMap.fromUsersArray(this.toUserArray().filter(fn))
+  }
+}

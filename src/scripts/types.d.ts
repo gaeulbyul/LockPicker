@@ -9,8 +9,9 @@ interface TwitterUser {
   blocking: boolean
   muting: boolean
   followed_by: boolean
-  following: boolean
-  follow_request_sent: boolean
+  // 2019년 5월부로 .followings 속성이 사라진다
+  // following?: boolean
+  follow_request_sent?: boolean
   friends_count: number
   followers_count: number
   protected: boolean
@@ -32,6 +33,24 @@ interface FollowsIdsResponse {
 interface FollowsScraperOptions {
   delay: number
 }
+
+type ConnectionType =
+  | 'following'
+  | 'following_requested'
+  | 'followed_by'
+  | 'blocking'
+  | 'blocked_by'
+  | 'muting'
+  | 'none'
+
+interface Friendship {
+  name: string
+  screen_name: string
+  id_str: string
+  connections: ConnectionType[]
+}
+
+type FriendshipResponse = Friendship[]
 
 interface Limit {
   limit: number

@@ -1,7 +1,7 @@
 class LockPicker {
   private ui = new LockPickerUI()
   private isRunning = false
-  private foundUsers: Map<string, TwitterUser> = new Map()
+  private foundUsers = new TwitterUserMap()
   constructor() {
     this.handleEvents()
   }
@@ -52,26 +52,45 @@ class LockPicker {
       })
     )
   }
+  // 2019년 5월부로 .followings 속성이 사라진다
+  // 따라서, 대체제로 friendships/lookup API를 사용하는 방식으로
+  // 변경함
   public async start(): Promise<TwitterUser[]> {
     const me = await TwitterAPI.getMyself()
     this.ui.updateMyInfo(me)
     this.isRunning = true
     try {
+      const protectedFollowers = new TwitterUserMap()
       let counter = 0
       for await (const follower of TwitterAPI.getAllFollowers(me)) {
         console.dir(
           `user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`
         )
         this.ui.setCounter(++counter)
-        if (follower.following) {
-          continue
-        }
         if (follower.protected) {
-          this.foundUsers.set(follower.id_str, follower)
+          protectedFollowers.addUser(follower)
         }
-        this.ui.updateUsers(Array.from(this.foundUsers.values()))
+        if (protectedFollowers.size >= 100) {
+          const usersArray = protectedFollowers.toUserArray()
+          const friendships = await TwitterAPI.getFriendships(usersArray).catch(
+            error => {
+              console.error(error)
+              return []
+            }
+          )
+          for (const fship of friendships) {
+            const { id_str, connections } = fship
+            if (connections.includes('following')) {
+              continue
+            }
+            const thatUser = protectedFollowers.get(id_str)!
+            this.foundUsers.addUser(thatUser)
+            this.ui.updateUsers(this.foundUsers.toUserArray())
+          }
+          protectedFollowers.clear()
+        }
       }
-      this.ui.complete(Array.from(this.foundUsers.values()))
+      this.ui.complete(this.foundUsers.toUserArray())
     } catch (err) {
       if (err instanceof TwitterAPI.RateLimitError) {
         const limits = await TwitterAPI.getRateLimitStatus()
