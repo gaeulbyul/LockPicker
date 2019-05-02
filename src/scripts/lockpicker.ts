@@ -61,35 +61,46 @@ class LockPicker {
     this.isRunning = true
     try {
       const protectedFollowers = new TwitterUserMap()
+      const flush = async () => {
+        const usersArray = protectedFollowers.toUserArray()
+        if (usersArray.length <= 0) {
+          return
+        }
+        const friendships = await TwitterAPI.getFriendships(usersArray).catch(
+          error => {
+            console.error(error)
+            return []
+          }
+        )
+        for (const fship of friendships) {
+          const { id_str, connections } = fship
+          if (connections.includes('following')) {
+            continue
+          }
+          const thatUser = protectedFollowers.get(id_str)!
+          this.foundUsers.addUser(thatUser)
+          this.ui.updateUsers(this.foundUsers.toUserArray())
+        }
+        protectedFollowers.clear()
+      }
       let counter = 0
       for await (const follower of TwitterAPI.getAllFollowers(me)) {
         console.debug(
           `user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`
         )
         this.ui.setCounter(++counter)
+        const following: unknown = (follower as any).following
+        if (typeof following === 'boolean' && following) {
+          continue
+        }
         if (follower.protected) {
           protectedFollowers.addUser(follower)
         }
         if (protectedFollowers.size >= 100) {
-          const usersArray = protectedFollowers.toUserArray()
-          const friendships = await TwitterAPI.getFriendships(usersArray).catch(
-            error => {
-              console.error(error)
-              return []
-            }
-          )
-          for (const fship of friendships) {
-            const { id_str, connections } = fship
-            if (connections.includes('following')) {
-              continue
-            }
-            const thatUser = protectedFollowers.get(id_str)!
-            this.foundUsers.addUser(thatUser)
-            this.ui.updateUsers(this.foundUsers.toUserArray())
-          }
-          protectedFollowers.clear()
+          await flush()
         }
       }
+      await flush()
       this.ui.complete(this.foundUsers.toUserArray())
     } catch (err) {
       if (err instanceof TwitterAPI.RateLimitError) {
