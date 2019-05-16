@@ -122,10 +122,11 @@ class LockPickerUI extends EventEmitter {
       text.textContent = user.name
       link.pathname = `/${user.screen_name}`
       link.textContent = `(@${user.screen_name})`
-      const extra = item.querySelector('span.extra')!
-      if (user.follow_request_sent) {
-        extra.textContent = '(팔로우 요청 대기 중)'
-      }
+      // TODO
+      // const extra = item.querySelector('span.extra')!
+      // if (user.follow_request_sent) {
+      //   extra.textContent = '(팔로우 요청 대기 중)'
+      // }
       this.userItems.set(user.id_str, item)
       return item
     }

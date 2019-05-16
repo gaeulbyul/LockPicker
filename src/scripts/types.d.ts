@@ -11,7 +11,7 @@ interface TwitterUser {
   followed_by: boolean
   // 2019년 5월부로 .followings 속성이 사라진다
   // following?: boolean
-  follow_request_sent?: boolean
+  // follow_request_sent?: boolean
   friends_count: number
   followers_count: number
   protected: boolean
