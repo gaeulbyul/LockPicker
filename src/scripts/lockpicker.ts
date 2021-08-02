@@ -66,12 +66,10 @@ class LockPicker {
         if (usersArray.length <= 0) {
           return
         }
-        const friendships = await TwitterAPI.getFriendships(usersArray).catch(
-          error => {
-            console.error(error)
-            return []
-          }
-        )
+        const friendships = await TwitterAPI.getFriendships(usersArray).catch(error => {
+          console.error(error)
+          return []
+        })
         for (const fship of friendships) {
           const { id_str, connections } = fship
           if (connections.includes('following')) {
@@ -85,9 +83,7 @@ class LockPicker {
       }
       let counter = 0
       for await (const follower of TwitterAPI.getAllFollowers(me)) {
-        console.debug(
-          `user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`
-        )
+        console.debug(`user #${counter}: @${follower.screen_name} <ID:${follower.id_str}>`)
         this.ui.setCounter(++counter)
         const following: unknown = (follower as any).following
         if (typeof following === 'boolean' && following) {
@@ -108,9 +104,7 @@ class LockPicker {
         const flimit = limits.followers['/followers/list']
         const resetTime = new Date(flimit.reset * 1000)
         const timestr = formatTime(resetTime)
-        window.alert(
-          `리밋에러 발생! 20~3분 뒤에 다시 시도해주세요. (예상 리셋시간: ${timestr})`
-        )
+        window.alert(`리밋에러 발생! 20~3분 뒤에 다시 시도해주세요. (예상 리셋시간: ${timestr})`)
       } else {
         window.alert(`오류 발생! (메시지:${err.toString()})`)
         throw err

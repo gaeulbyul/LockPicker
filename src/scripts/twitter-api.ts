@@ -78,9 +78,7 @@ namespace TwitterAPI {
     }
     const shouldNotBlock = (user as any).following
     if (shouldNotBlock) {
-      throw new Error(
-        '!!!!! FATAL!!!!!: attempted to block user that should NOT block!!'
-      )
+      throw new Error('!!!!! FATAL!!!!!: attempted to block user that should NOT block!!')
     }
     return blockUserUnsafe(user)
   }
@@ -111,9 +109,7 @@ namespace TwitterAPI {
     user: TwitterUser,
     cursor: string = '-1'
   ): Promise<FollowsListResponse> {
-    console.warn(
-      'get followers/list API DEPRECATED: `following` property will gone'
-    )
+    console.warn('get followers/list API DEPRECATED: `following` property will gone')
     const response = await requestAPI('get', '/followers/list.json', {
       user_id: user.id_str,
       // screen_name: userName,
@@ -151,9 +147,7 @@ namespace TwitterAPI {
     }
   }
 
-  export async function getSingleUserByName(
-    userName: string
-  ): Promise<TwitterUser> {
+  export async function getSingleUserByName(userName: string): Promise<TwitterUser> {
     const response = await requestAPI('get', '/users/show.json', {
       // user_id: user.id_str,
       screen_name: userName,
@@ -177,18 +171,13 @@ namespace TwitterAPI {
   }
 
   export async function getRateLimitStatus(): Promise<LimitStatus> {
-    const response = await requestAPI(
-      'get',
-      '/application/rate_limit_status.json'
-    )
+    const response = await requestAPI('get', '/application/rate_limit_status.json')
     const resources = (await response.json()).resources as LimitStatus
     return resources
   }
 
-  export async function getFriendships(
-    users: TwitterUser[]
-  ): Promise<FriendshipResponse> {
-    const userIds = users.map((user) => user.id_str)
+  export async function getFriendships(users: TwitterUser[]): Promise<FriendshipResponse> {
+    const userIds = users.map(user => user.id_str)
     if (userIds.length === 0) {
       return []
     }

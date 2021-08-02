@@ -30,9 +30,7 @@ class LockPickerUI extends EventEmitter {
     this.rootElem.className = 'lockpicker-bg'
     this.rootElem.innerHTML = LOCK_PICKER_UI_HTML
     this.attachEvents()
-    this.progressBar = this.rootElem.querySelector<HTMLProgressElement>(
-      '.lockpicker-progress'
-    )!
+    this.progressBar = this.rootElem.querySelector<HTMLProgressElement>('.lockpicker-progress')!
     document.body.appendChild(this.rootElem)
   }
   private attachEvents() {
@@ -52,9 +50,7 @@ class LockPickerUI extends EventEmitter {
           return
         }
         const ids = Array.from(
-          this.rootElem.querySelectorAll<HTMLElement>(
-            'li.lockpicker-user[data-user-id]'
-          )
+          this.rootElem.querySelectorAll<HTMLElement>('li.lockpicker-user[data-user-id]')
         ).map(elem => elem.getAttribute('data-user-id')!)
         this.emit<BlockAllParameter>('ui:block-all', { ids })
         this.setControlsAvaility('disable')
@@ -65,9 +61,7 @@ class LockPickerUI extends EventEmitter {
           return
         }
         const ids = Array.from(
-          this.rootElem.querySelectorAll<HTMLElement>(
-            'li.lockpicker-user[data-user-id]'
-          )
+          this.rootElem.querySelectorAll<HTMLElement>('li.lockpicker-user[data-user-id]')
         ).map(elem => elem.getAttribute('data-user-id')!)
         this.emit<BlockAllParameter>('ui:bnub-all', { ids })
         this.setControlsAvaility('disable')
@@ -144,9 +138,7 @@ class LockPickerUI extends EventEmitter {
   public setControlsAvaility(enabled: 'enable' | 'disable') {
     const disabled = enabled === 'disable'
     this.rootElem
-      .querySelectorAll<HTMLButtonElement>(
-        '.lockpicker-controls button.action-btn'
-      )
+      .querySelectorAll<HTMLButtonElement>('.lockpicker-controls button.action-btn')
       .forEach(btn => {
         btn.disabled = disabled
       })

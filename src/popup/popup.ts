@@ -16,16 +16,12 @@ async function executeLockPicker() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document
-    .querySelector('.menu-item.run-lock-picker')!
-    .addEventListener('click', event => {
-      event.preventDefault()
-      void executeLockPicker()
-    })
+  document.querySelector('.menu-item.run-lock-picker')!.addEventListener('click', event => {
+    event.preventDefault()
+    void executeLockPicker()
+  })
   const manifest = browser.runtime.getManifest()
   const currentVersion = document.querySelector<HTMLElement>('.currentVersion')
   currentVersion!.textContent = `버전: ${manifest.version}`
-  currentVersion!.title = `Lock Picker 버전 ${
-    manifest.version
-  }을(를) 사용하고 있습니다.`
+  currentVersion!.title = `Lock Picker 버전 ${manifest.version}을(를) 사용하고 있습니다.`
 })

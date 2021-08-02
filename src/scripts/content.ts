@@ -46,9 +46,7 @@ async function runLockPicker() {
   const lockpicker = new LockPicker()
   const users = await lockpicker.start()
   const count = users.length
-  void sleep(200).then(() =>
-    window.alert(`완료! 프로텍트 팔로워를 총 ${count}명 찾았습니다.`)
-  )
+  void sleep(200).then(() => window.alert(`완료! 프로텍트 팔로워를 총 ${count}명 찾았습니다.`))
 }
 
 function elemExists(qs: string): boolean {
