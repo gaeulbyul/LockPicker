@@ -1,52 +1,34 @@
-function toggleNightMode(mode: boolean) {
-  document.documentElement!.classList.toggle('lockpicker-nightmode', mode)
+function isDark(colorThemeElem: HTMLMetaElement) {
+  return colorThemeElem.content.toUpperCase() !== '#FFFFFF'
 }
 
-const nightModeObserver = new MutationObserver(mutations => {
-  for (const mutation of mutations) {
-    for (const node of mutation.addedNodes) {
-      if (!(node instanceof Element)) {
-        continue
-      }
-      if (node.matches('link.coreCSSBundles')) {
-        const css = node as HTMLLinkElement
-        const nightMode = /nightmode/.test(css.href)
-        toggleNightMode(nightMode)
-      }
-    }
-  }
-})
-
-function updateDarkModeClass() {
-  const htmlElem = document.documentElement!
-  htmlElem.classList.add('lockpicker-mobile')
-  if (isDarkMode) {
-    htmlElem.classList.add('lockpicker-mobile-dark')
-    htmlElem.classList.remove('lockpicker-mobile-light')
-  } else {
-    htmlElem.classList.add('lockpicker-mobile-light')
-    htmlElem.classList.remove('lockpicker-mobile-dark')
-  }
+function toggleNightMode(dark: boolean): void {
+  document.documentElement.classList.toggle('lockpicker-mobile-dark', dark)
+  document.documentElement.classList.toggle('lockpicker-mobile-light', !dark)
 }
 
-const isDarkMode = /\bnight_mode=1\b/.test(document.cookie)
-toggleNightMode(isDarkMode)
+function handleDarkMode() {
+  const colorThemeTag = document.querySelector('meta[name=theme-color]')
+  if (colorThemeTag instanceof HTMLMetaElement) {
+    const nightModeObserver = new MutationObserver(() => {
+      toggleNightMode(isDark(colorThemeTag))
+    })
 
-if (document.getElementById('react-root')) {
-  updateDarkModeClass()
-  window.setInterval(updateDarkModeClass, 3000)
-} else {
-  nightModeObserver.observe(document.head!, {
-    childList: true,
-    subtree: true,
-  })
+    nightModeObserver.observe(colorThemeTag, {
+      attributeFilter: ['content'],
+      attributes: true,
+    })
+
+    toggleNightMode(isDark(colorThemeTag))
+  }
 }
 
 async function runLockPicker() {
   const lockpicker = new LockPicker()
   const users = await lockpicker.start()
   const count = users.length
-  void sleep(200).then(() => window.alert(`완료! 프로텍트 팔로워를 총 ${count}명 찾았습니다.`))
+  await sleep(100)
+  window.alert(`완료! 프로텍트 팔로워를 총 ${count}명 찾았습니다.`)
 }
 
 function elemExists(qs: string): boolean {
@@ -73,3 +55,5 @@ browser.runtime.onMessage.addListener((msgobj: object) => {
       break
   }
 })
+
+handleDarkMode()

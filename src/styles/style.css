@@ -96,12 +96,11 @@ progress.lockpicker-progress {
   content: '\274C';
 }
 
-/* ---------- 모바일 ---------- */
-.lockpicker-mobile .lockpicker-bg {
+.lockpicker-bg {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.lockpicker-mobile .lockpicker-dialog {
+.lockpicker-dialog {
   font-size: 16px;
   width: 90vw;
   min-width: 250px;
@@ -109,16 +108,16 @@ progress.lockpicker-progress {
   border-radius: 10px;
 }
 
-.lockpicker-mobile hr.lockpicker-hr {
+.lockpicker-dialog hr.lockpicker-hr {
   border-top: 1px solid;
   border-bottom: 0;
 }
 
-.lockpicker-mobile .lockpicker-controls {
+.lockpicker-dialog .lockpicker-controls {
   text-align: right;
 }
 
-.lockpicker-mobile .btn {
+.lockpicker-dialog .btn {
   font-size: 1.25em;
   padding: 10px 25px;
   border: 1px solid;
@@ -130,11 +129,11 @@ ul.lockpicker-found-user-list {
   list-style-type: circle;
 }
 
-.lockpicker-mobile .lockpicker-controls .btn ~ .btn {
+.lockpicker-dialog .lockpicker-controls .btn ~ .btn {
   margin: 0 20px;
 }
 
-.lockpicker-mobile .lockpicker-controls .btn:disabled {
+.lockpicker-dialog .lockpicker-controls .btn:disabled {
   opacity: 0.4;
 }
 
@@ -150,8 +149,12 @@ ul.lockpicker-found-user-list {
 }
 
 .lockpicker-mobile-light .lockpicker-user {
-  text-decoration: underline;
   color: crimson;
+}
+
+.lockpicker-mobile-light a.userlink {
+  color: blue;
+  text-decoration: underline;
 }
 
 .lockpicker-mobile-light .btn.caution-btn {
@@ -171,8 +174,12 @@ ul.lockpicker-found-user-list {
 }
 
 .lockpicker-mobile-dark .lockpicker-user {
-  text-decoration: underline;
   color: #f47189;
+}
+
+.lockpicker-mobile-dark a.userlink {
+  color: cornflowerblue;
+  text-decoration: underline;
 }
 
 .lockpicker-mobile-dark .btn.caution-btn {

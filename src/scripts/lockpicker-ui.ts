@@ -95,7 +95,7 @@ class LockPickerUI extends EventEmitter {
     const addUserItem = (user: TwitterUser): HTMLElement => {
       const templ = `
         <span class="nickname"></span>
-        <a href="https://twitter.com/" target="_blank" rel="noopener noreferer"></a>
+        <a class="userlink" href="https://twitter.com/" target="_blank" rel="noopener noreferrer"></a>
         <span class="extra" style="font-size:small"></span>
       `.trim()
       const item = document.createElement('li')
