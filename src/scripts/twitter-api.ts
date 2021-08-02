@@ -13,7 +13,7 @@ namespace TwitterAPI {
 
   function generateTwitterAPIOptions(obj?: RequestInit): RequestInit {
     let csrfToken: string
-    const match = /\bct0=([0-9a-f]{32})\b/.exec(document.cookie)
+    const match = /\bct0=([0-9a-f].+?)\b/.exec(document.cookie)
     if (match && match[1]) {
       csrfToken = match[1]
     } else {
@@ -53,7 +53,7 @@ namespace TwitterAPI {
     const fetchOptions = generateTwitterAPIOptions({
       method,
     })
-    const url = new URL('https://api.twitter.com/1.1' + path)
+    const url = new URL('https://twitter.com/i/api/1.1' + path)
     let params: URLSearchParams
     if (method === 'get') {
       params = url.searchParams
@@ -188,7 +188,7 @@ namespace TwitterAPI {
   export async function getFriendships(
     users: TwitterUser[]
   ): Promise<FriendshipResponse> {
-    const userIds = users.map(user => user.id_str)
+    const userIds = users.map((user) => user.id_str)
     if (userIds.length === 0) {
       return []
     }
