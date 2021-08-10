@@ -12,6 +12,7 @@ Lock Picker는 자신의 팔로워 중 프로텍트 팔로워를 찾아주고, �
 - 크롬:
   ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/klgnngikhehokkiebdhigfkdceemhcih.svg?style=plastic)
   https://chrome.google.com/webstore/detail/lock-picker/klgnngikhehokkiebdhigfkdceemhcih
+- MS엣지: https://microsoftedge.microsoft.com/addons/detail/lock-picker/fejnojnopphipccledpgngbafgijonbc
 - 웨일: https://store.whale.naver.com/detail/jdbahejnblpkgdickgmiikmkmibjkpoh
 
 ## 라이센스
